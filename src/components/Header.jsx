@@ -157,7 +157,7 @@ export default function Header({
 
           {/* Public Website External Link */}
           <a
-            href="http://localhost:5173"
+            href={import.meta.env.VITE_SITE_URL || 'https://green-gate-advisory.vercel.app'}
             target="_blank"
             rel="noopener noreferrer"
             title="Open Live Public Website"
@@ -199,7 +199,7 @@ export default function Header({
 
                 <div className="pt-1 space-y-1">
                   <a
-                    href="http://localhost:5173"
+                    href={import.meta.env.VITE_SITE_URL || 'https://green-gate-advisory.vercel.app'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between px-3 py-2 rounded-xl text-xs text-charcoal hover:bg-sand-surface transition-colors"

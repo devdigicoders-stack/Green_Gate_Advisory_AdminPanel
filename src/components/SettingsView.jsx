@@ -83,12 +83,12 @@ export default function SettingsView() {
             <div className="flex justify-between py-1.5 border-b border-sand-border/50">
               <span className="text-charcoal-muted">Public Website:</span>
               <a 
-                href="http://localhost:5173" 
+                href={import.meta.env.VITE_SITE_URL || 'https://green-gate-advisory.vercel.app'} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="font-mono font-semibold text-deep-green hover:underline flex items-center gap-1"
               >
-                <span>http://localhost:5173</span>
+                <span>{import.meta.env.VITE_SITE_URL || 'https://green-gate-advisory.vercel.app'}</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>

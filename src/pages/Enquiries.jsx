@@ -336,7 +336,7 @@ export default function Enquiries() {
                 </p>
                 <div className="pt-2">
                   <a
-                    href="http://localhost:5173/en/contact"
+                    href={`${import.meta.env.VITE_SITE_URL || 'https://green-gate-advisory.vercel.app'}/en/contact`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-forest hover:bg-forest-light text-white text-xs font-semibold transition-colors"

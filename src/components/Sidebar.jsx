@@ -129,7 +129,7 @@ export default function Sidebar({
               Inquiry forms submitted on the public website appear directly here.
             </p>
             <a 
-              href="http://localhost:5173" 
+              href={import.meta.env.VITE_SITE_URL || 'https://green-gate-advisory.vercel.app'} 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-white bg-emerald-800/80 hover:bg-emerald-700/80 px-3 py-2 rounded-xl border border-emerald-600/40 transition-colors w-full justify-center"
