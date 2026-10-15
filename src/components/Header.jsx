@@ -29,13 +29,13 @@ export default function Header({
 
   const getBreadcrumbTitle = () => {
     switch (activeTab) {
-      case 'analytics':
-        return 'Analytics & Advisory Insights';
-      case 'system':
-        return 'System Health & Configuration';
-      case 'enquiries':
+      case 'profile':
+        return 'Admin Profile & Security';
+      case 'settings':
+        return 'Portal Settings';
+      case 'inquiries':
       default:
-        return 'Client Enquiries & Workflow';
+        return 'Website Inquiries';
     }
   };
 
@@ -68,8 +68,8 @@ export default function Header({
           </div>
         </div>
 
-        {/* Center: Live Search Bar (Active on Enquiries tab) */}
-        {activeTab === 'enquiries' && (
+        {/* Center: Live Search Bar (Active on Inquiries tab) */}
+        {activeTab === 'inquiries' && (
           <div className="hidden md:flex flex-1 max-w-md mx-4">
             <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-charcoal-muted">

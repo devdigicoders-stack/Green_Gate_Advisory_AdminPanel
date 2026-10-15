@@ -12,59 +12,37 @@ import {
   ChevronRight, 
   AlertCircle, 
   Inbox, 
-  ArrowUpDown, 
-  CheckCircle2, 
-  Phone, 
   Download, 
   ExternalLink,
   ChevronDown,
-  Sparkles,
-  Layers,
+  Phone,
   MapPin
 } from 'lucide-react';
 import api from '../services/api';
 import AdminLayout from '../components/AdminLayout';
-import DashboardMetrics from '../components/DashboardMetrics';
-import AnalyticsView from '../components/AnalyticsView';
-import SystemHealthView from '../components/SystemHealthView';
-import StatusBadge from '../components/StatusBadge';
+import ProfileView from '../components/ProfileView';
+import SettingsView from '../components/SettingsView';
 import EnquiryDetailModal from '../components/EnquiryDetailModal';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
 
-const SERVICES_FILTER_LIST = [
-  'All Services',
-  'Carbon Markets',
-  'CBAM',
-  'ETS and Carbon Pricing',
-  'Climate Finance',
-  'Nature-Based Solutions',
-  'Environmental and Climate Policy',
-  'Corporate Climate and ESG',
-  'MRV and GHG Accounting',
-  'Training and Capacity Building',
-  'Other'
-];
-
 const STATUS_TABS = [
-  { id: 'all', label: 'All Enquiries' },
+  { id: 'all', label: 'All Inquiries' },
   { id: 'new', label: 'New' },
   { id: 'in_progress', label: 'In Progress' },
   { id: 'contacted', label: 'Contacted' },
   { id: 'resolved', label: 'Resolved' },
-  { id: 'closed', label: 'Closed' },
-  { id: 'archived', label: 'Archived' }
+  { id: 'closed', label: 'Closed' }
 ];
 
 export default function Enquiries() {
-  const [activeTab, setActiveTab] = useState('enquiries'); // 'enquiries' | 'analytics' | 'system'
+  const [activeTab, setActiveTab] = useState('inquiries'); // 'inquiries' | 'profile' | 'settings'
   const [enquiries, setEnquiries] = useState([]);
-  const [counts, setCounts] = useState({ all: 0, new: 0, in_progress: 0, contacted: 0, resolved: 0, closed: 0, archived: 0 });
+  const [counts, setCounts] = useState({ all: 0, new: 0, in_progress: 0, contacted: 0, resolved: 0, closed: 0 });
   const [pagination, setPagination] = useState({ page: 1, limit: 15, total: 0, totalPages: 1 });
   
   // Filter state
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [serviceFilter, setServiceFilter] = useState('All Services');
   const [sortOrder, setSortOrder] = useState('-createdAt');
   
   const [isLoading, setIsLoading] = useState(true);
@@ -85,7 +63,6 @@ export default function Enquiries() {
       const res = await api.getEnquiries({
         search: searchTerm,
         status: statusFilter === 'all' ? '' : statusFilter,
-        service: serviceFilter === 'All Services' ? '' : serviceFilter,
         page: pagination.page,
         limit: pagination.limit,
         sort: sortOrder
@@ -105,12 +82,12 @@ export default function Enquiries() {
         }
       }
     } catch (err) {
-      setErrorMsg(err.message || 'Failed to fetch enquiries.');
+      setErrorMsg(err.message || 'Failed to fetch inquiries.');
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
     }
-  }, [searchTerm, statusFilter, serviceFilter, pagination.page, pagination.limit, sortOrder]);
+  }, [searchTerm, statusFilter, pagination.page, pagination.limit, sortOrder]);
 
   useEffect(() => {
     fetchEnquiries();
@@ -122,9 +99,7 @@ export default function Enquiries() {
     try {
       const res = await api.updateEnquiryStatus(enquiryId, { status: newStatus });
       if (res.success) {
-        // Update local list
         setEnquiries(prev => prev.map(item => item._id === enquiryId ? { ...item, status: newStatus } : item));
-        // Refresh counts silently
         fetchEnquiries(true);
       }
     } catch (err) {
@@ -169,7 +144,7 @@ export default function Enquiries() {
   // Export to CSV Handler
   const handleExportCSV = () => {
     if (!enquiries || enquiries.length === 0) {
-      alert('No enquiries to export.');
+      alert('No inquiries to export.');
       return;
     }
 
@@ -205,7 +180,7 @@ export default function Enquiries() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `GGA_Enquiries_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute("download", `GGA_Inquiries_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -230,37 +205,24 @@ export default function Enquiries() {
       setSearchTerm={setSearchTerm}
       onRefresh={() => fetchEnquiries(false)}
       isRefreshing={isRefreshing}
-      onSelectServiceFilter={(serviceName) => {
-        setServiceFilter(serviceName);
-        setPagination(prev => ({ ...prev, page: 1 }));
-      }}
     >
-      {/* View 1: Analytics & Insights */}
-      {activeTab === 'analytics' && (
-        <AnalyticsView enquiries={enquiries} counts={counts} />
+      {/* Tab 1: Profile View */}
+      {activeTab === 'profile' && (
+        <ProfileView />
       )}
 
-      {/* View 2: System Health */}
-      {activeTab === 'system' && (
-        <SystemHealthView />
+      {/* Tab 2: Settings View */}
+      {activeTab === 'settings' && (
+        <SettingsView />
       )}
 
-      {/* View 3: Enquiries Management Hub */}
-      {activeTab === 'enquiries' && (
+      {/* Tab 3: Website Inquiries */}
+      {activeTab === 'inquiries' && (
         <div className="space-y-6">
-          {/* Top KPI Cards */}
-          <DashboardMetrics
-            counts={counts}
-            activeStatusFilter={statusFilter}
-            onSelectStatus={(status) => {
-              setStatusFilter(status);
-              setPagination(prev => ({ ...prev, page: 1 }));
-            }}
-          />
-
-          {/* Interactive Filters & Controls Toolbar */}
+          {/* Controls & Filter Toolbar */}
           <div className="bg-white rounded-3xl p-5 sm:p-6 border border-sand-border shadow-subtle space-y-4">
-            {/* Status Tab Pills */}
+            
+            {/* Status Pills */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-sand-border/80 scrollbar-none">
               {STATUS_TABS.map((tab) => {
                 const isActive = statusFilter === tab.id;
@@ -291,7 +253,7 @@ export default function Enquiries() {
               })}
             </div>
 
-            {/* Sub-Filters: Search on Mobile + Service Dropdown + Sort + Export */}
+            {/* Sub-Filters: Sort & CSV Export */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
               
               {/* Mobile Search input */}
@@ -306,23 +268,8 @@ export default function Enquiries() {
                 />
               </div>
 
-              {/* Service Pillar Filter */}
-              <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-forest flex-shrink-0" />
-                <select
-                  value={serviceFilter}
-                  onChange={(e) => {
-                    setServiceFilter(e.target.value);
-                    setPagination(prev => ({ ...prev, page: 1 }));
-                  }}
-                  className="bg-sand-surface border border-sand-border text-xs rounded-xl px-3 py-2 text-charcoal font-semibold focus:outline-none focus:ring-2 focus:ring-forest w-full sm:w-auto"
-                >
-                  {SERVICES_FILTER_LIST.map((srv) => (
-                    <option key={srv} value={srv}>
-                      {srv}
-                    </option>
-                  ))}
-                </select>
+              <div className="text-xs text-charcoal-muted">
+                Showing <strong className="text-forest">{enquiries.length}</strong> inquiries submitted from website form
               </div>
 
               {/* Right Side: Sort Order & CSV Export */}
@@ -334,17 +281,17 @@ export default function Enquiries() {
                 >
                   <option value="-createdAt">Newest First</option>
                   <option value="createdAt">Oldest First</option>
-                  <option value="fullName">Client Name (A-Z)</option>
                 </select>
 
                 <button
                   type="button"
                   onClick={handleExportCSV}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-forest hover:bg-forest-light text-white text-xs font-semibold shadow-xs transition-colors"
+                  disabled={enquiries.length === 0}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-forest hover:bg-forest-light text-white text-xs font-semibold shadow-xs transition-colors disabled:opacity-50"
                   title="Export to CSV"
                 >
                   <Download className="w-3.5 h-3.5 text-gold" />
-                  <span className="hidden sm:inline">Export CSV</span>
+                  <span>Export CSV</span>
                 </button>
               </div>
             </div>
@@ -367,13 +314,13 @@ export default function Enquiries() {
             </div>
           )}
 
-          {/* Enquiries Data Table Card */}
+          {/* Inquiries Table Card */}
           <div className="bg-white rounded-3xl border border-sand-border shadow-subtle overflow-hidden">
             {isLoading ? (
               <div className="p-16 text-center space-y-4">
                 <RotateCw className="w-8 h-8 text-forest animate-spin mx-auto" />
                 <p className="text-xs text-charcoal-muted font-mono">
-                  Loading advisory client records...
+                  Loading inquiries from website...
                 </p>
               </div>
             ) : enquiries.length === 0 ? (
@@ -382,36 +329,32 @@ export default function Enquiries() {
                   <Inbox className="w-7 h-7" />
                 </div>
                 <h3 className="font-display font-bold text-base text-forest-dark">
-                  No Client Enquiries Found
+                  No Website Inquiries Yet
                 </h3>
-                <p className="text-xs text-charcoal-muted max-w-sm mx-auto">
-                  {searchTerm || statusFilter !== 'all' || serviceFilter !== 'All Services'
-                    ? 'No records match your active search and filter criteria. Try clearing filters.'
-                    : 'Incoming consultation requests submitted on the public website will appear here in real-time.'}
+                <p className="text-xs text-charcoal-muted max-w-sm mx-auto leading-relaxed">
+                  Jab koi client aapki public website ke Contact form se inquiry submit karega, wo yahan real-time me show hoga.
                 </p>
-                {(searchTerm || statusFilter !== 'all' || serviceFilter !== 'All Services') && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSearchTerm('');
-                      setStatusFilter('all');
-                      setServiceFilter('All Services');
-                    }}
-                    className="px-4 py-2 rounded-xl bg-sand-surface hover:bg-sand-border/40 text-xs font-semibold text-forest border border-sand-border transition-colors inline-block mt-2"
+                <div className="pt-2">
+                  <a
+                    href="http://localhost:5173/en/contact"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-forest hover:bg-forest-light text-white text-xs font-semibold transition-colors"
                   >
-                    Clear All Filters
-                  </button>
-                )}
+                    <span>Test Website Form</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-gold" />
+                  </a>
+                </div>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-sand-border/80 bg-sand-surface/60 text-[11px] font-mono font-bold uppercase tracking-wider text-charcoal-muted">
-                      <th className="py-3.5 px-4 sm:px-6">Client & Organisation</th>
-                      <th className="py-3.5 px-4">Advisory Service</th>
+                      <th className="py-3.5 px-4 sm:px-6">Client / Organisation</th>
+                      <th className="py-3.5 px-4">Service Required</th>
                       <th className="py-3.5 px-4">Contact Info</th>
-                      <th className="py-3.5 px-4">Submission Date</th>
+                      <th className="py-3.5 px-4">Submitted At</th>
                       <th className="py-3.5 px-4">Status</th>
                       <th className="py-3.5 px-4 text-right">Actions</th>
                     </tr>
@@ -444,10 +387,10 @@ export default function Enquiries() {
                             </div>
                           </td>
 
-                          {/* Service Pillar Tag */}
+                          {/* Service Required */}
                           <td className="py-4 px-4">
                             <span className="inline-block px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-forest/5 text-forest border border-forest/10 max-w-[180px] truncate">
-                              {item.serviceInterest || 'General Advisory'}
+                              {item.serviceInterest || 'General Inquiry'}
                             </span>
                           </td>
 
@@ -457,19 +400,17 @@ export default function Enquiries() {
                               <a 
                                 href={`mailto:${item.workEmail}`}
                                 className="text-forest hover:text-gold-dark hover:underline flex items-center gap-1.5 font-medium truncate max-w-[190px]"
-                                title={`Send Email to ${item.workEmail}`}
+                                title={`Send email to ${item.workEmail}`}
                               >
                                 <Mail className="w-3 h-3 flex-shrink-0 text-charcoal-muted" />
                                 <span className="truncate">{item.workEmail}</span>
                               </a>
-                              <div className="flex items-center gap-2 text-[11px] text-charcoal-muted">
-                                {item.countryOrRegion && (
-                                  <span className="flex items-center gap-1">
-                                    <MapPin className="w-2.5 h-2.5" />
-                                    <span>{item.countryOrRegion}</span>
-                                  </span>
-                                )}
-                              </div>
+                              {item.countryOrRegion && (
+                                <div className="flex items-center gap-1 text-[11px] text-charcoal-muted">
+                                  <MapPin className="w-2.5 h-2.5" />
+                                  <span>{item.countryOrRegion}</span>
+                                </div>
+                              )}
                             </div>
                           </td>
 
@@ -479,7 +420,7 @@ export default function Enquiries() {
                             <span className="text-[10px] text-charcoal-muted">{time}</span>
                           </td>
 
-                          {/* Inline Status Selector */}
+                          {/* Status Dropdown */}
                           <td className="py-4 px-4">
                             <div className="relative inline-block">
                               <select
@@ -503,7 +444,6 @@ export default function Enquiries() {
                                 <option value="contacted">Contacted</option>
                                 <option value="resolved">Resolved</option>
                                 <option value="closed">Closed</option>
-                                <option value="archived">Archived</option>
                               </select>
                               <ChevronDown className="w-3 h-3 absolute right-2 top-2 pointer-events-none opacity-60" />
                             </div>
@@ -516,7 +456,7 @@ export default function Enquiries() {
                                 type="button"
                                 onClick={() => setSelectedEnquiry(item)}
                                 className="p-2 rounded-xl text-forest hover:bg-forest/10 border border-sand-border transition-colors shadow-2xs"
-                                title="View Full Executive Record"
+                                title="View Full Details & Requirement"
                               >
                                 <Eye className="w-3.5 h-3.5" />
                               </button>
@@ -525,7 +465,7 @@ export default function Enquiries() {
                                 type="button"
                                 onClick={() => setDeletingId(item._id)}
                                 className="p-2 rounded-xl text-rose-600 hover:bg-rose-50 border border-sand-border transition-colors shadow-2xs"
-                                title="Delete Enquiry"
+                                title="Delete Inquiry"
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                               </button>

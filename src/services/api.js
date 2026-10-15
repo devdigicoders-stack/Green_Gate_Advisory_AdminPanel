@@ -60,6 +60,13 @@ export const api = {
     return request('/api/admin/session', { method: 'GET' });
   },
 
+  async updateProfile(profileData) {
+    return request('/api/admin/profile', {
+      method: 'PUT',
+      body: JSON.stringify(profileData)
+    });
+  },
+
   // Enquiries Management
   async getEnquiries({ search = '', status = '', service = '', page = 1, limit = 15, sort = '-createdAt' } = {}) {
     const query = new URLSearchParams();

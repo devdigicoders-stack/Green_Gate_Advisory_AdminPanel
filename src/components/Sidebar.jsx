@@ -1,38 +1,23 @@
 import { 
-  LayoutDashboard, 
   Inbox, 
-  BarChart3, 
-  Server, 
+  UserCircle, 
+  Settings, 
   ExternalLink, 
   LogOut, 
-  ShieldCheck, 
-  ChevronRight, 
-  X,
-  Layers,
-  Sparkles
+  X
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const NAV_ITEMS = [
-  { id: 'enquiries', label: 'Enquiries Hub', icon: Inbox, badgeKey: 'new' },
-  { id: 'analytics', label: 'Analytics & Insights', icon: BarChart3 },
-  { id: 'system', label: 'System & Database', icon: Server },
-];
-
-const SERVICE_QUICK_FILTERS = [
-  { label: 'Carbon Markets', color: 'bg-emerald-400' },
-  { label: 'CBAM Advisory', color: 'bg-amber-400' },
-  { label: 'ETS & Article 6', color: 'bg-blue-400' },
-  { label: 'Nature-Based Solutions', color: 'bg-teal-400' },
-  { label: 'Corporate Climate & ESG', color: 'bg-purple-400' },
-  { label: 'Climate Finance', color: 'bg-gold' }
+  { id: 'inquiries', label: 'Website Inquiries', icon: Inbox, badgeKey: 'new' },
+  { id: 'profile', label: 'Admin Profile', icon: UserCircle },
+  { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
 export default function Sidebar({ 
   activeTab, 
   setActiveTab, 
   counts, 
-  onSelectServiceFilter,
   isOpenMobile, 
   setIsOpenMobile 
 }) {
@@ -77,7 +62,7 @@ export default function Sidebar({
                 </span>
               </div>
               <span className="font-mono text-[10px] text-emerald-200/60 tracking-wider block">
-                Advisory Management Suite
+                Inquiries Portal
               </span>
             </div>
           </div>
@@ -93,13 +78,12 @@ export default function Sidebar({
         </div>
 
         {/* Navigation Section */}
-        <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6">
-          {/* Main Navigation */}
+        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
           <div>
             <div className="px-3 mb-2 text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300/50">
-              Core Operations
+              Navigation
             </div>
-            <nav className="space-y-1">
+            <nav className="space-y-1.5">
               {NAV_ITEMS.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
@@ -136,47 +120,22 @@ export default function Sidebar({
             </nav>
           </div>
 
-          {/* Quick Pillar Filter */}
-          <div>
-            <div className="px-3 mb-2 flex items-center justify-between text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300/50">
-              <span>Service Pillars</span>
-              <Layers className="w-3 h-3 text-emerald-300/40" />
-            </div>
-            <div className="space-y-0.5">
-              {SERVICE_QUICK_FILTERS.map((s) => (
-                <button
-                  key={s.label}
-                  onClick={() => {
-                    setActiveTab('enquiries');
-                    if (onSelectServiceFilter) onSelectServiceFilter(s.label);
-                    setIsOpenMobile(false);
-                  }}
-                  className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[11px] text-emerald-100/70 hover:text-white hover:bg-white/5 transition-colors text-left"
-                >
-                  <span className={`w-1.5 h-1.5 rounded-full ${s.color}`} />
-                  <span className="truncate">{s.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Public Website Preview Card */}
-          <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-            <div className="flex items-center gap-2 text-xs font-semibold text-gold-light">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Public Website</span>
-            </div>
+          {/* Website Link Card */}
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <span className="text-xs font-semibold text-gold-light block">
+              Live Website
+            </span>
             <p className="text-[11px] text-emerald-100/70 leading-relaxed">
-              Verify client-side enquiry form and live advisory pages on port 5173.
+              Inquiry forms submitted on the public website appear directly here.
             </p>
             <a 
               href="http://localhost:5173" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-white bg-emerald-800/80 hover:bg-emerald-700/80 px-3 py-1.5 rounded-lg border border-emerald-600/40 transition-colors w-full justify-center"
+              className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-white bg-emerald-800/80 hover:bg-emerald-700/80 px-3 py-2 rounded-xl border border-emerald-600/40 transition-colors w-full justify-center"
             >
-              <span>Open Public Site</span>
-              <ExternalLink className="w-3 h-3 text-gold" />
+              <span>Open Website</span>
+              <ExternalLink className="w-3.5 h-3.5 text-gold" />
             </a>
           </div>
         </div>
@@ -184,13 +143,19 @@ export default function Sidebar({
         {/* Footer Admin Profile */}
         <div className="p-4 border-t border-white/10 bg-black/20">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5 min-w-0">
+            <div 
+              onClick={() => {
+                setActiveTab('profile');
+                setIsOpenMobile(false);
+              }}
+              className="flex items-center gap-2.5 min-w-0 cursor-pointer hover:opacity-90 transition-opacity"
+            >
               <div className="w-8 h-8 rounded-full bg-gold/20 border border-gold/40 text-gold flex items-center justify-center font-bold text-xs uppercase flex-shrink-0">
                 {admin?.username ? admin.username.charAt(0).toUpperCase() : 'A'}
               </div>
               <div className="min-w-0">
                 <span className="text-xs font-semibold text-white truncate block">
-                  {admin?.username || 'Administrator'}
+                  {admin?.username || 'Admin'}
                 </span>
                 <span className="text-[10px] font-mono text-emerald-300/60 uppercase block">
                   {admin?.role || 'Superadmin'}
