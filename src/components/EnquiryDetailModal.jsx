@@ -99,8 +99,13 @@ export default function EnquiryDetailModal({
       {/* Modal Dialog */}
       <div className="relative bg-white rounded-3xl shadow-2xl border border-sand-border/80 w-full max-w-3xl overflow-hidden z-10 flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="px-6 py-5 bg-sand-surface border-b border-sand-border flex items-center justify-between">
+        <div className="px-6 py-4 bg-sand-surface border-b border-sand-border flex items-center justify-between">
           <div className="flex items-center gap-3">
+            <img 
+              src="/favicon.png" 
+              alt="Green Gate Emblem" 
+              className="w-7 h-7 rounded-lg object-contain border border-sand-border shadow-xs flex-shrink-0" 
+            />
             <StatusBadge status={currentStatus} />
             <span className="text-xs font-mono text-charcoal-muted hidden sm:inline">
               ID: {enquiry._id}
@@ -110,14 +115,21 @@ export default function EnquiryDetailModal({
             </span>
           </div>
 
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-1.5 rounded-xl text-charcoal-muted hover:text-forest hover:bg-forest/5 transition-colors"
-            aria-label="Close details"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-4">
+            <img 
+              src="/logo.png" 
+              alt="Green Gate Advisory" 
+              className="h-6 w-auto object-contain hidden md:inline opacity-85" 
+            />
+            <button
+              type="button"
+              onClick={onClose}
+              className="p-1.5 rounded-xl text-charcoal-muted hover:text-forest hover:bg-forest/5 transition-colors"
+              aria-label="Close details"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Scrollable Content */}

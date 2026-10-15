@@ -85,10 +85,17 @@ export default function ProfileView() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Header Banner */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sand-border shadow-subtle flex items-center justify-between">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sand-border shadow-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-forest text-gold flex items-center justify-center font-bold text-xl uppercase shadow-xs">
-            {username ? username.charAt(0).toUpperCase() : 'A'}
+          <div className="relative flex-shrink-0">
+            <div className="w-14 h-14 rounded-2xl bg-forest text-gold flex items-center justify-center font-bold text-xl uppercase shadow-xs">
+              {username ? username.charAt(0).toUpperCase() : 'A'}
+            </div>
+            <img 
+              src="/favicon.png" 
+              alt="Green Gate" 
+              className="w-5 h-5 rounded-md absolute -bottom-1 -right-1 border-2 border-white bg-white shadow-xs object-contain"
+            />
           </div>
           <div>
             <h2 className="font-display font-bold text-xl text-forest-dark">
@@ -100,9 +107,16 @@ export default function ProfileView() {
           </div>
         </div>
 
-        <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase bg-gold/20 text-gold-dark border border-gold/30">
-          {admin?.role || 'Superadmin'}
-        </span>
+        <div className="flex items-center gap-3 self-start sm:self-auto">
+          <img 
+            src="/logo.png" 
+            alt="Green Gate Advisory" 
+            className="h-6 w-auto object-contain hidden sm:inline opacity-80"
+          />
+          <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase bg-gold/20 text-gold-dark border border-gold/30">
+            {admin?.role || 'Superadmin'}
+          </span>
+        </div>
       </div>
 
       {/* Form Card */}

@@ -106,6 +106,69 @@ export default function SettingsView() {
         </div>
 
       </div>
+
+      {/* Card 3: Brand Assets & Identity Overview */}
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sand-border shadow-subtle space-y-5">
+        <div className="flex items-center justify-between pb-4 border-b border-sand-border">
+          <div className="flex items-center gap-3">
+            <img 
+              src="/favicon.png" 
+              alt="Green Gate" 
+              className="w-9 h-9 rounded-xl object-contain border border-sand-border shadow-xs" 
+            />
+            <div>
+              <h3 className="font-display font-bold text-base text-forest-dark">
+                Official Brand Assets & Identity
+              </h3>
+              <p className="text-xs text-charcoal-muted">
+                High-resolution logos & emblems configured across the admin panel
+              </p>
+            </div>
+          </div>
+
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
+            Active in Portal
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+          {/* Asset 1: Favicon Emblem */}
+          <div className="p-4 rounded-2xl bg-sand-surface border border-sand-border/80 flex flex-col items-center text-center space-y-2">
+            <div className="w-16 h-16 rounded-2xl bg-white p-2.5 border border-sand-border shadow-xs flex items-center justify-center">
+              <img src="/favicon.png" alt="Emblem" className="w-full h-full object-contain" />
+            </div>
+            <div>
+              <span className="font-bold text-forest-dark block">Brand Emblem</span>
+              <span className="text-[10px] font-mono text-charcoal-muted block">favicon.png (1:1)</span>
+            </div>
+            <span className="text-[10px] text-charcoal-muted">Used in Sidebar, Header & Modals</span>
+          </div>
+
+          {/* Asset 2: Dark Surface Logo */}
+          <div className="p-4 rounded-2xl bg-forest-dark text-white border border-forest/60 flex flex-col items-center text-center space-y-2">
+            <div className="w-full h-16 rounded-xl bg-white/5 p-2 border border-white/10 flex items-center justify-center">
+              <img src="/logo-white.png" alt="White Logo" className="h-8 w-auto object-contain" />
+            </div>
+            <div>
+              <span className="font-bold text-white block">White Horizontal Logo</span>
+              <span className="text-[10px] font-mono text-sand-surface/60 block">logo-white.png (3:1)</span>
+            </div>
+            <span className="text-[10px] text-sand-surface/60">Used in Login & Dark Navbars</span>
+          </div>
+
+          {/* Asset 3: Light Surface Logo */}
+          <div className="p-4 rounded-2xl bg-sand-surface border border-sand-border/80 flex flex-col items-center text-center space-y-2">
+            <div className="w-full h-16 rounded-xl bg-white p-2 border border-sand-border shadow-xs flex items-center justify-center">
+              <img src="/logo.png" alt="Dark Logo" className="h-8 w-auto object-contain" />
+            </div>
+            <div>
+              <span className="font-bold text-forest-dark block">Standard Color Logo</span>
+              <span className="text-[10px] font-mono text-charcoal-muted block">logo.png (3:1)</span>
+            </div>
+            <span className="text-[10px] text-charcoal-muted">Used in Headers & Details</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

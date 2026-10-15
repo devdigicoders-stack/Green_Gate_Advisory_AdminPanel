@@ -43,19 +43,29 @@ export default function Header({
     <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-sand-border/80 shadow-xs">
       <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         
-        {/* Left Side: Mobile Menu Button + Breadcrumb */}
+        {/* Left Side: Mobile Menu Button + Brand Logo / Breadcrumb */}
         <div className="flex items-center gap-3 min-w-0">
           <button
             type="button"
             onClick={onOpenMobileSidebar}
-            className="lg:hidden p-2 rounded-xl text-charcoal hover:bg-sand-surface border border-sand-border transition-colors"
+            className="lg:hidden p-2 rounded-xl text-charcoal hover:bg-sand-surface border border-sand-border transition-colors flex-shrink-0"
             aria-label="Open navigation menu"
           >
             <Menu className="w-5 h-5" />
           </button>
 
+          {/* Mobile Brand Logo */}
+          <div className="lg:hidden flex items-center pr-2 border-r border-sand-border">
+            <img 
+              src="/logo.png" 
+              alt="Green Gate Advisory" 
+              className="h-6 w-auto max-w-[130px] object-contain"
+            />
+          </div>
+
           <div className="min-w-0">
-            <div className="flex items-center gap-2 text-xs text-charcoal-muted">
+            <div className="hidden sm:flex items-center gap-2 text-xs text-charcoal-muted">
+              <img src="/favicon.png" alt="" className="w-3.5 h-3.5 rounded object-contain inline" />
               <span className="font-mono uppercase tracking-wider font-semibold text-[10px] text-forest">
                 Green Gate
               </span>
@@ -184,17 +194,24 @@ export default function Header({
             </button>
 
             {showUserDropdown && (
-              <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-elevated border border-sand-border p-2 z-50 animate-fadeIn">
-                <div className="px-3 py-2 border-b border-sand-border/80">
-                  <p className="text-xs font-bold text-forest-dark truncate">
-                    {admin?.username || 'Administrator'}
-                  </p>
-                  <p className="text-[10px] text-charcoal-muted font-mono truncate">
-                    {admin?.email || 'admin@greengateadvisory.com'}
-                  </p>
-                  <span className="inline-block mt-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-gold/20 text-gold-dark border border-gold/30">
-                    {admin?.role || 'Superadmin'}
-                  </span>
+              <div className="absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-elevated border border-sand-border p-2 z-50 animate-fadeIn">
+                <div className="px-3 py-2.5 border-b border-sand-border/80 flex items-center gap-2.5">
+                  <img 
+                    src="/favicon.png" 
+                    alt="Green Gate" 
+                    className="w-8 h-8 rounded-lg object-contain border border-sand-border shadow-xs flex-shrink-0"
+                  />
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold text-forest-dark truncate">
+                      {admin?.username || 'Administrator'}
+                    </p>
+                    <p className="text-[10px] text-charcoal-muted font-mono truncate">
+                      {admin?.email || 'admin@greengateadvisory.com'}
+                    </p>
+                    <span className="inline-block mt-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono font-bold uppercase bg-gold/20 text-gold-dark border border-gold/30">
+                      {admin?.role || 'Superadmin'}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="pt-1 space-y-1">

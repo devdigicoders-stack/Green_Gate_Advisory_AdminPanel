@@ -45,14 +45,11 @@ export default function Login() {
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center px-4">
         {/* Brand Logo */}
-        <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-white/5 border border-white/10 mb-5 shadow-elevated">
+        <div className="inline-flex items-center justify-center p-4 px-8 rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 mb-6 shadow-2xl">
           <img 
             src="/logo-white.png" 
             alt="Green Gate Advisory" 
-            className="h-10 w-auto object-contain"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
+            className="h-11 sm:h-13 w-auto max-w-[270px] object-contain drop-shadow"
           />
         </div>
 
@@ -67,6 +64,18 @@ export default function Login() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
         <div className="bg-white/95 backdrop-blur-md py-8 px-6 sm:px-10 shadow-2xl rounded-3xl border border-white/20 text-charcoal">
           
+          {/* Card Brand Header */}
+          <div className="flex items-center justify-center gap-2.5 pb-4 mb-6 border-b border-sand-border/70">
+            <img 
+              src="/favicon.png" 
+              alt="Green Gate Advisory" 
+              className="w-7 h-7 rounded-lg object-contain shadow-xs border border-sand-border"
+            />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-forest-dark">
+              Authorized Portal Access
+            </span>
+          </div>
+
           {errorMsg && (
             <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2.5">
               <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
