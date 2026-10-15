@@ -51,6 +51,10 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateAdminUser = (updatedData) => {
+    setAdmin(prev => (prev ? { ...prev, ...updatedData } : updatedData));
+  };
+
   const value = {
     admin,
     isAuthenticated: !!admin,
@@ -58,7 +62,8 @@ export function AuthProvider({ children }) {
     error,
     login,
     logout,
-    checkSession
+    checkSession,
+    updateAdminUser
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

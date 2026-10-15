@@ -135,11 +135,19 @@ export default function Sidebar({
               }}
               className="flex items-center gap-2.5 min-w-0 cursor-pointer hover:opacity-90 transition-opacity"
             >
-              <div className="w-8 h-8 rounded-full bg-gold/20 border border-gold/40 text-gold flex items-center justify-center font-bold text-xs uppercase flex-shrink-0">
-                {admin?.username ? admin.username.charAt(0).toUpperCase() : 'A'}
-              </div>
+              {admin?.avatar ? (
+                <img 
+                  src={admin.avatar} 
+                  alt={admin?.username || 'Admin'} 
+                  className="w-8 h-8 rounded-full object-cover border border-gold/40 flex-shrink-0"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-gold/20 border border-gold/40 text-gold flex items-center justify-center font-bold text-xs uppercase flex-shrink-0">
+                  {admin?.username ? admin.username.charAt(0).toUpperCase() : 'A'}
+                </div>
+              )}
               <div className="min-w-0">
-                <span className="text-xs font-semibold text-white truncate block">
+                <span className="text-xs font-semibold text-white truncate block capitalize">
                   {admin?.username || 'Admin'}
                 </span>
                 <span className="text-[10px] font-mono text-emerald-300/60 uppercase block">

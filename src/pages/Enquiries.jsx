@@ -32,6 +32,7 @@ import SettingsView from '../components/SettingsView';
 import StatusBadge from '../components/StatusBadge';
 import EnquiryDetailModal from '../components/EnquiryDetailModal';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
+import { useAuth } from '../context/AuthContext';
 
 const STATUS_TABS = [
   { id: 'all', label: 'All Inquiries' },
@@ -43,6 +44,7 @@ const STATUS_TABS = [
 ];
 
 export default function Enquiries() {
+  const { admin } = useAuth();
   const [activeTab, setActiveTab] = useState('inquiries'); // 'inquiries' | 'profile' | 'settings'
   const [viewMode, setViewMode] = useState('cards'); // 'cards' | 'table'
   const [enquiries, setEnquiries] = useState([]);
@@ -256,6 +258,53 @@ export default function Enquiries() {
       {/* Tab 3: Website Inquiries */}
       {activeTab === 'inquiries' && (
         <div className="space-y-6">
+          {/* Welcome Banner */}
+          <div className="bg-gradient-to-r from-[#0E3327] via-[#0A271E] to-[#071C15] text-white rounded-3xl p-6 sm:p-7 shadow-elevated border border-emerald-950/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative overflow-hidden">
+            <div className="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-gold/10 blur-2xl pointer-events-none" />
+
+            <div className="flex items-center gap-4 z-10 min-w-0">
+              <div className="relative flex-shrink-0">
+                {admin?.avatar ? (
+                  <img 
+                    src={admin.avatar} 
+                    alt={admin?.username || 'Admin'} 
+                    className="w-14 h-14 rounded-2xl object-cover border-2 border-gold/40 shadow-sm"
+                  />
+                ) : (
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 border border-gold/30 text-gold flex items-center justify-center font-bold text-xl uppercase shadow-xs">
+                    {admin?.username ? admin.username.charAt(0).toUpperCase() : 'A'}
+                  </div>
+                )}
+                <span className="w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-[#0A271E] absolute -bottom-1 -right-1 shadow-xs" />
+              </div>
+
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className="font-display font-bold text-xl sm:text-2xl text-white tracking-tight truncate">
+                    Welcome back, <span className="text-gold-light capitalize">{admin?.username || 'Admin'}</span> 👋
+                  </h2>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-white/10 text-sand-surface border border-white/15">
+                    {admin?.role || 'Superadmin'}
+                  </span>
+                </div>
+                <p className="text-xs text-sand-surface/80 mt-1 font-sans">
+                  Manage incoming client inquiries, update statuses, and monitor website consultations in real-time.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 z-10 self-stretch sm:self-auto justify-between sm:justify-end border-t sm:border-t-0 border-white/10 pt-3 sm:pt-0">
+              <div className="text-left sm:text-right">
+                <span className="text-[10px] font-mono text-emerald-200/70 block uppercase tracking-wider">
+                  Unread Inquiries
+                </span>
+                <span className="text-lg font-mono font-bold text-gold">
+                  {counts.new ?? 0} New
+                </span>
+              </div>
+            </div>
+          </div>
+
           {/* Controls & Filter Toolbar */}
           <div className="bg-white rounded-3xl p-5 sm:p-6 border border-sand-border shadow-subtle space-y-4">
             
