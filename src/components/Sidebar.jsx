@@ -41,27 +41,15 @@ export default function Sidebar({
       >
         {/* Brand Header */}
         <div className="p-5 border-b border-white/10 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/10 border border-gold/30 flex items-center justify-center p-1 shadow-sm overflow-hidden flex-shrink-0">
-              <img 
-                src="/favicon.png" 
-                alt="Green Gate Emblem" 
-                className="w-full h-full object-contain rounded-lg"
-              />
-            </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="font-display font-bold text-sm tracking-wide text-white truncate">
-                  GREEN GATE
-                </span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-gold/20 text-gold-light border border-gold/30 font-bold uppercase flex-shrink-0">
-                  Admin
-                </span>
-              </div>
-              <span className="font-mono text-[10px] text-emerald-200/60 tracking-wider block truncate">
-                Inquiries Portal
-              </span>
-            </div>
+          <div className="flex items-center gap-2.5 min-w-0">
+            <img 
+              src="/logo-white.png" 
+              alt="Green Gate Advisory" 
+              className="h-9 w-auto max-w-[190px] object-contain drop-shadow-sm"
+            />
+            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-gold/20 text-gold-light border border-gold/30 font-bold uppercase tracking-wider flex-shrink-0">
+              Admin
+            </span>
           </div>
 
           {/* Mobile Close Button */}

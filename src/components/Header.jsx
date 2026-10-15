@@ -43,8 +43,8 @@ export default function Header({
     <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-sand-border/80 shadow-xs">
       <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         
-        {/* Left Side: Mobile Menu Button + Brand Logo / Breadcrumb */}
-        <div className="flex items-center gap-3 min-w-0">
+        {/* Left Side: Mobile Menu Button + Official Brand Logo + Section Title */}
+        <div className="flex items-center gap-3.5 min-w-0">
           <button
             type="button"
             onClick={onOpenMobileSidebar}
@@ -54,27 +54,24 @@ export default function Header({
             <Menu className="w-5 h-5" />
           </button>
 
-          {/* Mobile Brand Logo */}
-          <div className="lg:hidden flex items-center pr-2 border-r border-sand-border">
+          {/* Official Brand Logo */}
+          <div className="flex items-center gap-3 min-w-0">
             <img 
               src="/logo.png" 
               alt="Green Gate Advisory" 
-              className="h-6 w-auto max-w-[130px] object-contain"
+              className="h-8 sm:h-9 w-auto max-w-[160px] sm:max-w-[200px] object-contain flex-shrink-0"
             />
-          </div>
+            
+            <div className="hidden sm:block h-6 w-px bg-sand-border flex-shrink-0" />
 
-          <div className="min-w-0">
-            <div className="hidden sm:flex items-center gap-2 text-xs text-charcoal-muted">
-              <img src="/favicon.png" alt="" className="w-3.5 h-3.5 rounded object-contain inline" />
-              <span className="font-mono uppercase tracking-wider font-semibold text-[10px] text-forest">
-                Green Gate
+            <div className="min-w-0 hidden sm:block">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-charcoal-muted block leading-none mb-1">
+                Admin Portal
               </span>
-              <span>/</span>
-              <span className="truncate">{getBreadcrumbTitle()}</span>
+              <h1 className="text-sm font-display font-bold text-forest-dark truncate leading-tight">
+                {getBreadcrumbTitle()}
+              </h1>
             </div>
-            <h1 className="text-sm sm:text-base font-display font-bold text-forest-dark truncate">
-              {getBreadcrumbTitle()}
-            </h1>
           </div>
         </div>
 
@@ -101,13 +98,8 @@ export default function Header({
           </div>
         )}
 
-        {/* Right Side: Status Indicator, Refresh Button, Public Site, User */}
+        {/* Right Side: Refresh Button, Public Site, User */}
         <div className="flex items-center gap-2.5 sm:gap-3">
-          {/* Live Server Pulse */}
-          <div className="hidden sm:inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-mono text-emerald-800">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-semibold">API :5050 Online</span>
-          </div>
 
           {/* Refresh Action */}
           <button
