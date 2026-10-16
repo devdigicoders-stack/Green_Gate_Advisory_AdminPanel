@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
@@ -36,7 +37,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!assets/|favicon.ico|logo.png|logo-white.png).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
